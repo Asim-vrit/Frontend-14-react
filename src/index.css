@@ -18,6 +18,10 @@ body {
   list-style: none;
   padding: 10px;
 }
+.header ul li:hover {
+  background-color: aquamarine;
+  cursor: pointer;
+}
 
 .main-container {
   display: flex;

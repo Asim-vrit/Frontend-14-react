@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-function Header() {
-  const [cart, setCart] = useState(0);
-  function updateState() {
-    setCart(cart + 1);
+function Header(props) {
+  function updateHome() {
+    props.setCurrentPage("home");
   }
-  console.log("i am header", cart);
+  function updateAbout() {
+    props.setCurrentPage("about");
+  }
+  function updateContact() {
+    props.setCurrentPage("contact");
+  }
   return (
     <header className="header">
       <ul>
-        <li>
-          {" "}
-          <button onClick={updateState}>Cart{cart}</button>
-        </li>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
+        <li onClick={updateHome}>Home</li>
+        <li onClick={updateAbout}>About</li>
+        <li onClick={updateContact}>Contact</li>
       </ul>
     </header>
   );
