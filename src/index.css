@@ -1,0 +1,48 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  padding: 10px;
+  background-color: antiquewhite;
+}
+
+.header ul {
+  display: flex;
+  gap: 10px;
+}
+
+.header ul li {
+  list-style: none;
+  padding: 10px;
+}
+
+.main-container {
+  display: flex;
+}
+.main-container aside {
+  padding: 20px;
+  background-color: aliceblue;
+}
+.highlight {
+  background-color: blueviolet;
+  color: white;
+  font-size: 40px;
+}
+
+li.test {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.card {
+  background-color: aquamarine;
+  color: black;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid rgb(161, 161, 161);
+  border-radius: 20px;
+}
