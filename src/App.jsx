@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import MainSection from "./components/MainSection";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import About from "./pages/About";
