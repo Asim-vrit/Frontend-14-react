@@ -5,8 +5,8 @@ import App from "./App.jsx";
 import AppWithRouter from "./AppWithRouter.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
     {/* <App /> */}
     <AppWithRouter />
-  </StrictMode>
+  </>
 );

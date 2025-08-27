@@ -10,7 +10,7 @@ function Header(props) {
   }
   return (
     <header className="header">
-      <ul>
+      <ul className="flex gap-2 justify-center">
         <li onClick={updateHome}>Home</li>
         <li onClick={updateAbout}>About</li>
         <li onClick={updateContact}>Contact</li>

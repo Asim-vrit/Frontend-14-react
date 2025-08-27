@@ -12,20 +12,12 @@ const data = [
   { song: "bad habits", artist: "ed sheeran" },
 ];
 
-async function fetchProducts(limit) {
-  const res = await fetch("https://fakestoreapi.com/products?limit=" + limit);
-  const data = await res.json();
-  console.log(data);
-}
-
 function About() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q");
-  const limit = searchParams.get("limit");
   const a = parseInt(searchParams.get("a"));
   const b = parseInt(searchParams.get("b"));
   const isNotNumber = isNaN(a) || isNaN(b);
-  fetchProducts(limit);
 
   return (
     <>

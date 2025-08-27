@@ -58,10 +58,16 @@ function AppWithRouter() {
 
 function RouterHeader() {
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="/contact">Contact</Link>
+    <div className=" flex my-2 justify-center gap-2">
+      <Link className="border p-2 rounded-2xl" to="/">
+        Home
+      </Link>
+      <Link className="border p-2 rounded-2xl" to="/about">
+        About
+      </Link>
+      <Link className="border p-2 rounded-2xl" to="/contact">
+        Contact
+      </Link>
     </div>
   );
 }
