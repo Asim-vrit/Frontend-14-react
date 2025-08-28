@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Sidebar from "./components/Sidebar";
+import Product from "./pages/Product";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +32,16 @@ const router = createBrowserRouter([
       <>
         <RouterLayout>
           <Contact />
+        </RouterLayout>
+      </>
+    ),
+  },
+  {
+    path: "/product",
+    element: (
+      <>
+        <RouterLayout>
+          <Product />
         </RouterLayout>
       </>
     ),
@@ -67,6 +78,9 @@ function RouterHeader() {
       </Link>
       <Link className="border p-2 rounded-2xl" to="/contact">
         Contact
+      </Link>
+      <Link className="border p-2 rounded-2xl" to="/product">
+        Product
       </Link>
     </div>
   );
