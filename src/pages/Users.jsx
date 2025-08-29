@@ -57,6 +57,7 @@ function Users() {
       }
       const deletedUser = await raw.json();
       fetchUsers();
+      resetFields();
       alert(`User ${deletedUser.name.firstname} deleted Successfully`);
     } catch (error) {
       console.log(error);
