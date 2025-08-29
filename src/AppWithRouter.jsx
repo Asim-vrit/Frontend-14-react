@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Sidebar from "./components/Sidebar";
 import Product from "./pages/Product";
+import Users from "./pages/Users";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,16 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/users",
+    element: (
+      <>
+        <RouterLayout>
+          <Users />
+        </RouterLayout>
+      </>
+    ),
+  },
+  {
     path: "/privacy-policy",
     element: (
       <>
@@ -82,12 +93,15 @@ function RouterHeader() {
       <Link className="border p-2 rounded-2xl" to="/product">
         Product
       </Link>
+      <Link className="border p-2 rounded-2xl" to="/users">
+        Users
+      </Link>
     </div>
   );
 }
 
 function RouterFooter() {
-  return <footer className="mt-auto">Copyright @C</footer>;
+  return <footer className="mt-auto flex justify-center">Copyright @C</footer>;
 }
 
 function RouterLayout(props) {
@@ -95,10 +109,12 @@ function RouterLayout(props) {
     <div className="flex flex-col h-screen">
       <RouterHeader />
       <main className="flex gap-2">
-        <div className="p-10 bg-gray-300">
+        {/* <div className="p-10 bg-gray-300">
           <Sidebar />{" "}
+        </div> */}
+        <div className="px-[10%]">
+          <div className="">{props.children}</div>
         </div>
-        <div className="w-full block">{props.children}</div>
       </main>
       <RouterFooter />
     </div>
