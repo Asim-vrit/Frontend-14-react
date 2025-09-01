@@ -21,7 +21,7 @@ function About() {
 
   return (
     <>
-      {q && (
+      {/* {q && (
         <>
           {data
             .filter((item) => item.song === q)
@@ -31,8 +31,8 @@ function About() {
               </div>
             ))}
         </>
-      )}
-      <button
+      )} */}
+      {/* <button
         onClick={() => {
           setSearchParams("a=12&b=24");
         }}
@@ -41,7 +41,7 @@ function About() {
       </button>
       <div className="bg-purple-700 text-white">
         sum of searchParams= {isNotNumber ? "Your input is incorrect" : a + b}
-      </div>
+      </div> */}
     </>
   );
 }

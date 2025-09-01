@@ -1,100 +1,56 @@
-import React, { useEffect, useState } from "react";
-
+import { useState } from "react";
+import { useFetch } from "../hooks/useFetch";
+const PAGE_ROUTE = "/users";
 function Users() {
-  const [usersData, setUsersData] = useState([]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [editId, setEditId] = useState(null);
-
   function resetFields() {
     setUsername("");
     setEmail("");
     setPassword("");
     setEditId(null);
   }
-  async function fetchUsers() {
-    try {
-      const raw = await fetch("https://fakestoreapi.com/users");
-      if (!raw.ok) {
-        const error = await raw.text();
-        throw new Error(error);
-      }
-      const res = await raw.json();
-      setUsersData(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function postUser(newUser) {
-    try {
-      const raw = await fetch("https://fakestoreapi.com/users", {
-        method: "POST",
-        body: JSON.stringify(newUser),
-        headers: { "content-type": "Application/JSON" },
-      });
-      if (!raw.ok) {
-        const error = await raw.text();
-        throw new Error(error);
-      }
-      await raw.json();
-      fetchUsers();
-      resetFields();
-      alert("User created Successfully");
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  async function deleteUser(userId) {
-    try {
-      const raw = await fetch(`https://fakestoreapi.com/users/${userId}`, {
-        method: "DELETE",
-      });
-      if (!raw.ok) {
-        const error = await raw.text();
-        throw new Error(error);
-      }
-      const deletedUser = await raw.json();
-      fetchUsers();
+  const { data: usersData, customFetch: fetchUsers } = useFetch({
+    url: PAGE_ROUTE,
+    initialData: [],
+    fetchOnMount: true,
+  });
+  const { customFetch: postUser } = useFetch({
+    url: PAGE_ROUTE,
+    fetchOptions: { method: "POST" },
+    onSuccess: () => {
       resetFields();
+      fetchUsers();
+    },
+  });
+  const { customFetch: deleteUser } = useFetch({
+    url: PAGE_ROUTE,
+    fetchOptions: { method: "DELETE" },
+    onSuccess: (deletedUser) => {
+      resetFields();
+      fetchUsers();
       alert(`User ${deletedUser.name.firstname} deleted Successfully`);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function updateUser() {
-    console.log(editId, username, email, password);
-    const updatedUser = {
-      username: username,
-      email: email,
-      password: password,
-    };
-    try {
-      const raw = await fetch(`https://fakestoreapi.com/users/${editId}`, {
-        method: "PUT",
-        body: JSON.stringify(updatedUser),
-        headers: { "content-type": "Application/JSON" },
-      });
-      if (!raw.ok) {
-        const error = await raw.text();
-        throw new Error(error);
-      }
-      await raw.json();
-      fetchUsers();
+    },
+  });
+  const { customFetch: updateUser } = useFetch({
+    url: PAGE_ROUTE,
+    fetchOptions: { method: "PUT" },
+    onSuccess: () => {
       resetFields();
-      alert("User updated Successfully");
-    } catch (error) {
-      console.log(error);
-    }
-  }
+      fetchUsers();
+    },
+  });
+
   function onSubmit() {
     const data = {
       username: username,
       email: email,
       password: password,
     };
-    postUser(data);
+    postUser({ body: data });
   }
   function onUpdate(userData) {
     setEditId(userData.id);
@@ -102,10 +58,7 @@ function Users() {
     setPassword(userData.password);
     setEmail(userData.email);
   }
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-  console.log(editId);
+
   return (
     <div>
       <div className="w-fit space-y-2 my-4">
@@ -152,7 +105,12 @@ function Users() {
         )}
         {editId && (
           <button
-            onClick={updateUser}
+            onClick={() => {
+              updateUser({
+                body: { username: username, email: email, password: password },
+                urlPart: editId,
+              });
+            }}
             className="border rounded-xl px-2 py-2 hover:cursor-pointer"
           >
             Update
@@ -215,7 +173,7 @@ function Users() {
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteUser(user.id)}
+                    onClick={() => deleteUser({ urlPart: user.id })}
                     className="border px-2 py-1 rounded-xl hover:cursor-pointer"
                   >
                     Delete
