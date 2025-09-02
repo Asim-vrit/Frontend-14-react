@@ -6,6 +6,7 @@ function Users() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [editId, setEditId] = useState(null);
+
   function resetFields() {
     setUsername("");
     setEmail("");
@@ -17,7 +18,10 @@ function Users() {
     url: PAGE_ROUTE,
     initialData: [],
     fetchOnMount: true,
+    customFetchData: { urlPart: "?limit=2" },
+    fetchOptions: { headers: { "test-data": "sent by asim" } },
   });
+
   const { customFetch: postUser } = useFetch({
     url: PAGE_ROUTE,
     fetchOptions: { method: "POST" },
@@ -26,6 +30,7 @@ function Users() {
       fetchUsers();
     },
   });
+
   const { customFetch: deleteUser } = useFetch({
     url: PAGE_ROUTE,
     fetchOptions: { method: "DELETE" },
@@ -35,6 +40,7 @@ function Users() {
       alert(`User ${deletedUser.name.firstname} deleted Successfully`);
     },
   });
+
   const { customFetch: updateUser } = useFetch({
     url: PAGE_ROUTE,
     fetchOptions: { method: "PUT" },
@@ -52,6 +58,7 @@ function Users() {
     };
     postUser({ body: data });
   }
+
   function onUpdate(userData) {
     setEditId(userData.id);
     setUsername(userData.username);

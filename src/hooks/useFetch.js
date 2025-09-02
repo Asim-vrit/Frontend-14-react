@@ -7,6 +7,7 @@ export function useFetch({
   initialData,
   fetchOnMount = false,
   fetchOptions = {},
+  customFetchData = { body: undefined, urlPart: "" },
   onSuccess = () => {},
   onError = () => {},
   onSettled = () => {},
@@ -26,6 +27,7 @@ export function useFetch({
         body: JSON.stringify(body),
         headers: {
           "content-type": "Application/JSON",
+          Authorization: "Bearer " + localStorage.getItem("token"),
           ...fetchOptions.headers,
         },
       });
@@ -35,9 +37,11 @@ export function useFetch({
       }
       const res = await raw.json();
       setData(res);
+      setError(null);
       onSuccess(res);
     } catch (error) {
       console.log(error);
+      setData(initialData);
       onError(error);
       if (error.message) setError(error.message);
       else {
@@ -50,7 +54,7 @@ export function useFetch({
   }
 
   useEffect(() => {
-    if (fetchOnMount) customFetch();
+    if (fetchOnMount) customFetch(customFetchData);
   }, []);
 
   return { data, loading, error, customFetch };
