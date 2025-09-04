@@ -1,8 +1,11 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { useNavigate } from "react-router";
+import { UserContext } from "../context/UserContext";
 
 function Login() {
+  const userContext = useContext(UserContext);
+
   const passwordRef = useRef();
   const usernameRef = useRef();
   const [error, setError] = useState("");
@@ -25,6 +28,16 @@ function Login() {
       console.log(res);
       if (res.token) {
         localStorage.setItem("token", res.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ name: "test name", id: 12 })
+        );
+
+        userContext.setUser({
+          isLogin: true,
+          userDetails: { name: "test name", id: 12 },
+          token: res.token,
+        });
         navigate("/");
       }
       handleMessages("success", "logged in successfully");

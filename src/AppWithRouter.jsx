@@ -1,10 +1,5 @@
-import {
-  createBrowserRouter,
-  Link,
-  Navigate,
-  Outlet,
-  useNavigate,
-} from "react-router";
+import { useContext, useState } from "react";
+import { createBrowserRouter, Link, Navigate, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -12,10 +7,36 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Users from "./pages/Users";
 import Login from "./pages/login";
+import { UserContext } from "./context/UserContext";
+
+const token = localStorage.getItem("token");
+const userLocal = localStorage.getItem("user");
+
 const router = createBrowserRouter([
   {
-    Component: RouterLayout,
+    element: <RouterLayout />,
     children: [
+      {
+        element: <Protected />,
+        children: [
+          {
+            path: "/about",
+            element: (
+              <>
+                <About />
+              </>
+            ),
+          },
+          {
+            path: "/contact",
+            element: (
+              <>
+                <Contact />
+              </>
+            ),
+          },
+        ],
+      },
       {
         path: "/",
         element: (
@@ -24,22 +45,7 @@ const router = createBrowserRouter([
           </>
         ),
       },
-      {
-        path: "/about",
-        element: (
-          <>
-            <About />
-          </>
-        ),
-      },
-      {
-        path: "/contact",
-        element: (
-          <>
-            <Contact />
-          </>
-        ),
-      },
+
       {
         path: "/product",
         element: (
@@ -69,18 +75,23 @@ const router = createBrowserRouter([
 ]);
 
 function AppWithRouter() {
+  const [user, setUser] = useState({
+    isLogin: !!token,
+    userDetails: userLocal ? JSON.parse(userLocal) : {},
+    token: token,
+  });
+
   return (
-    <>
+    <UserContext.Provider value={{ user: user, setUser: setUser }}>
       <div className="test-router">
         <RouterProvider router={router} />
       </div>
-      {/* this is called mounting the router */}
-    </>
+    </UserContext.Provider>
   );
 }
 
 function RouterHeader() {
-  const navigate = useNavigate();
+  const userContext = useContext(UserContext);
 
   return (
     <div className=" flex my-2 justify-center gap-2">
@@ -103,7 +114,8 @@ function RouterHeader() {
         className="border rounded-2xl border-red-500 p-2 text-red-600"
         onClick={() => {
           localStorage.removeItem("token");
-          navigate("/login");
+          localStorage.remove("user");
+          userContext.setUser({ isLogin: false, userDetails: {}, token: "" });
         }}
       >
         Logout
@@ -117,10 +129,6 @@ function RouterFooter() {
 }
 
 function RouterLayout() {
-  let hasToken = localStorage.getItem("token");
-  if (!hasToken) {
-    return <Navigate to={"/login"} />;
-  }
   return (
     <div className="flex flex-col h-screen">
       <RouterHeader />
@@ -134,6 +142,14 @@ function RouterLayout() {
       <RouterFooter />
     </div>
   );
+}
+
+function Protected() {
+  const userContext = useContext(UserContext);
+  if (!userContext.user.isLogin) {
+    return <Navigate to={"/login"} />;
+  }
+  return <Outlet />;
 }
 
 export default AppWithRouter;

@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/UserContext";
 
 function Contact() {
+  const userContext = useContext(UserContext);
+  console.log(userContext.user);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,6 +33,7 @@ function Contact() {
 
   return (
     <div>
+      {userContext.user.userDetails.name}
       <button
         onClick={() => {
           fetchProducts();
