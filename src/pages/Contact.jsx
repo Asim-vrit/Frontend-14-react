@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
+import { useUserContext } from "../providers/useUserContext";
 
 function Contact() {
-  const userContext = useContext(UserContext);
+  const userContext = useUserContext();
   console.log(userContext.user);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);

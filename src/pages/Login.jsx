@@ -1,10 +1,10 @@
-import { useContext, useRef, useState } from "react";
-import { useFetch } from "../hooks/useFetch";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { UserContext } from "../context/UserContext";
+import { useFetch } from "../hooks/useFetch";
+import { useUserContext } from "../providers/useUserContext";
 
 function Login() {
-  const userContext = useContext(UserContext);
+  const userContext = useUserContext();
 
   const passwordRef = useRef();
   const usernameRef = useRef();

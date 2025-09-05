@@ -1,4 +1,3 @@
-import { useContext, useState } from "react";
 import { createBrowserRouter, Link, Navigate, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import About from "./pages/About";
@@ -7,10 +6,7 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Users from "./pages/Users";
 import Login from "./pages/login";
-import { UserContext } from "./context/UserContext";
-
-const token = localStorage.getItem("token");
-const userLocal = localStorage.getItem("user");
+import { useUserContext } from "./providers/useUserContext";
 
 const router = createBrowserRouter([
   {
@@ -75,24 +71,15 @@ const router = createBrowserRouter([
 ]);
 
 function AppWithRouter() {
-  const [user, setUser] = useState({
-    isLogin: !!token,
-    userDetails: userLocal ? JSON.parse(userLocal) : {},
-    token: token,
-  });
-
   return (
-    <UserContext.Provider value={{ user: user, setUser: setUser }}>
-      <div className="test-router">
-        <RouterProvider router={router} />
-      </div>
-    </UserContext.Provider>
+    <div className="test-router">
+      <RouterProvider router={router} />
+    </div>
   );
 }
 
 function RouterHeader() {
-  const userContext = useContext(UserContext);
-
+  const userContext = useUserContext();
   return (
     <div className=" flex my-2 justify-center gap-2">
       <Link className="border p-2 rounded-2xl" to="/">
@@ -113,9 +100,7 @@ function RouterHeader() {
       <button
         className="border rounded-2xl border-red-500 p-2 text-red-600"
         onClick={() => {
-          localStorage.removeItem("token");
-          localStorage.remove("user");
-          userContext.setUser({ isLogin: false, userDetails: {}, token: "" });
+          userContext.logout();
         }}
       >
         Logout
@@ -145,7 +130,7 @@ function RouterLayout() {
 }
 
 function Protected() {
-  const userContext = useContext(UserContext);
+  const userContext = useUserContext();
   if (!userContext.user.isLogin) {
     return <Navigate to={"/login"} />;
   }
