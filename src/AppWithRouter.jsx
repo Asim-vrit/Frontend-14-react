@@ -7,6 +7,7 @@ import Product from "./pages/Product";
 import Users from "./pages/Users";
 import Login from "./pages/login";
 import { useUserContext } from "./providers/useUserContext";
+import HookForm from "./pages/HookForm";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
     element: <>Privary policy</>,
   },
   {
+    path: "/hook-form",
+    element: <HookForm />,
+  },
+  {
     path: "/login",
     element: <Login />,
   },
@@ -97,14 +102,28 @@ function RouterHeader() {
       <Link className="border p-2 rounded-2xl" to="/users">
         Users
       </Link>
-      <button
-        className="border rounded-2xl border-red-500 p-2 text-red-600"
-        onClick={() => {
-          userContext.logout();
-        }}
-      >
-        Logout
-      </button>
+      {userContext.user.isLogin ? (
+        <>
+          <button
+            className="border rounded-2xl border-red-500 p-2 text-red-600"
+            onClick={() => {
+              userContext.logout();
+            }}
+          >
+            Logout
+          </button>
+          User: {userContext.user.userDetails.name}
+        </>
+      ) : (
+        <>
+          <Link
+            to={"/login"}
+            className="border rounded-2xl border-green-500 p-2 text-green-600"
+          >
+            Login
+          </Link>
+        </>
+      )}
     </div>
   );
 }
