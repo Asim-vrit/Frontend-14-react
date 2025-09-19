@@ -1,8 +1,10 @@
 import React from "react";
 import MainSection from "../components/MainSection";
+import "./home.css";
 function Home() {
   return (
-    <div style={{ backgroundColor: "red" }}>
+    <div className="home-container" style={{ backgroundColor: "red" }}>
+      asdasd
       <MainSection />
     </div>
   );

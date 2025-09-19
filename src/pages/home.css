@@ -1,0 +1,8 @@
+.home-container {
+  height: 100vh;
+  color: blue;
+}
+
+.home-container > div {
+  border: 1px solid black;
+}
